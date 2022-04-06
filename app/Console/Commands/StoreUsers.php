@@ -19,7 +19,7 @@ class StoreUsers extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Stores Users from the API into a database';
 
     /**
      * Create a new command instance.
@@ -38,9 +38,12 @@ class StoreUsers extends Command
      */
     public function handle()
     {
+        dd('test');
         $start_page = 1;
         $client = new \GuzzleHttp\Client();
+
         $res = $client->request('GET','https://reqres.in/api/users');
+
         $data = json_decode($res->getBody()->getContents(), true);
 
         $total_pages = $data['total_pages'];
@@ -53,7 +56,10 @@ class StoreUsers extends Command
             $users = $data['data'];
 
             $this->saveUsers($users);
+
         }
+
+        $this->line('Users Saved');
     }
 
     public function saveUsers($users){
@@ -63,6 +69,6 @@ class StoreUsers extends Command
                 'email' => $user['email'],
                 'password' => ' ',
             ])->save();
-         }
+        }
     }
 }
