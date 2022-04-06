@@ -38,7 +38,6 @@ class StoreUsers extends Command
      */
     public function handle()
     {
-        dd('test');
         $start_page = 1;
         $client = new \GuzzleHttp\Client();
 
@@ -64,10 +63,11 @@ class StoreUsers extends Command
 
     public function saveUsers($users){
         foreach ($users as $user){
+            //dd($user);
             User::firstOrCreate([
                 'name' => $user['first_name'].' '.$user['last_name'],
                 'email' => $user['email'],
-                'password' => ' ',
+                'password' => '',
             ])->save();
         }
     }
